@@ -1,0 +1,1 @@
+Simple wrapper around pngquant and pngout to run these on as many CPU cores as wished and present.
