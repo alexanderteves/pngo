@@ -14,6 +14,16 @@ import (
 var pngQueue = make(chan string, 5000)
 var waitGroup sync.WaitGroup
 
+func init() {
+	if _, err := exec.LookPath("pngquant"); err != nil {
+		log.Println("'pngquant' command not found in PATH")
+		os.Exit(1)
+	} else if _, err := exec.LookPath("pngout"); err != nil {
+		log.Println("'pngout' command not found in PATH")
+		os.Exit(1)
+	}
+}
+
 func pngWorker(id int) {
 	for {
 		if element, channelOpen := <-pngQueue; element == "" && !channelOpen {
