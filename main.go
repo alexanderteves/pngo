@@ -14,7 +14,7 @@ import (
 var pngQueue = make(chan string, 5000)
 var waitGroup sync.WaitGroup
 
-func init() {
+func checkForTools() {
 	if _, err := exec.LookPath("pngquant"); err != nil {
 		log.Println("'pngquant' command not found in PATH")
 		os.Exit(1)
@@ -68,6 +68,7 @@ func main() {
 	dir := flag.String("dir", "/dev/null", "Target directory holding the PNG images")
 	cores := flag.Int("cores", runtime.NumCPU(), "Number of cores to use")
 	flag.Parse()
+	checkForTools()
 	runtime.GOMAXPROCS(*cores)
 	log.Println("Starting", *cores, "goroutines")
 	for counter := *cores; counter > 0; counter-- {
