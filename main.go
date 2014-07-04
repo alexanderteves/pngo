@@ -68,6 +68,10 @@ func main() {
 	dir := flag.String("dir", "/dev/null", "Target directory holding the PNG images")
 	cores := flag.Int("cores", runtime.NumCPU(), "Number of cores to use")
 	flag.Parse()
+	if *cores > runtime.NumCPU() {
+		log.Printf("Number of cores exceeds the physical number, reducing to %d", runtime.NumCPU())
+		*cores = runtime.NumCPU()
+	}
 	checkForTools()
 	runtime.GOMAXPROCS(*cores)
 	log.Println("Starting", *cores, "goroutines")
